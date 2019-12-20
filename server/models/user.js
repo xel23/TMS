@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
+const config = require('../config');
 
-mongoose.connect('mongodb://localhost/tms');
+mongoose.connect(config.MONGO_URL, {useNewUrlParser: true})
+    .then(() => console.log('MongoDB connected!'))
+    .catch(err => console.log(err));
 
 var db = mongoose.connection;
 
