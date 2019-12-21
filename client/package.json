@@ -14,8 +14,5 @@
     "webpack-cli": "^3.3.9",
     "babel-core": "^6.26.3",
     "html-webpack-plugin": "^3.2.0"
-  },
-  "dependencies": {
-    "angular": "^1.7.8"
   }
 }
