@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var User = require('../models/user');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const express = require('express');
+const router = express.Router();
+const User = require('../models/user');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 router.get('/', function (req, res, next) {
     res.send('home');
@@ -51,11 +51,11 @@ router.get('/register', function (req, res, next) {
 });
 
 router.post('/register', function (req, res, next) {
-    var name = req.body.name;
-    var email = req.body.email;
-    var username = req.body.username;
-    var password = req.body.password;
-    var password_2 = req.body.password_2;
+    let name = req.body.name;
+    let email = req.body.email;
+    let username = req.body.username;
+    let password = req.body.password;
+    let password_2 = req.body.password_2;
 
     req.checkBody('name', 'Name field is required').notEmpty();
     req.checkBody('email', 'Email field is required').notEmpty();
@@ -64,12 +64,12 @@ router.post('/register', function (req, res, next) {
     req.checkBody('password', 'Password field is required').notEmpty();
     req.checkBody('password_2', 'Passwords do not match').equals(req.body.password);
 
-    var errors = req.validationErrors();
+    let errors = req.validationErrors();
 
     if (errors) {
         res.render('register', {title: 'Register', errors: errors})
     } else {
-        var newUser = new User({
+        let newUser = new User({
             name: name,
             email: email,
             username: username,

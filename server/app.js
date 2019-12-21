@@ -1,21 +1,21 @@
 const path = require('path');
-var express = require('express');
-var parser = require('body-parser');
-var cookieParser = require('cookie-parser');
+const express = require('express');
+const parser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const config = require('./config');
-var session = require('express-session');
-var passport = require('passport');
-var expressValidator = require('express-validator');
-var LocalStrategy = require('passport-local').Strategy;
-var flash = require('connect-flash');
-var bcrypt = require('bcryptjs');
-var mongo = require('mongodb');
-var mongoose = require('mongoose');
-var db = mongoose.connection;
+const session = require('express-session');
+const passport = require('passport');
+const expressValidator = require('express-validator');
+const LocalStrategy = require('passport-local').Strategy;
+const flash = require('connect-flash');
+const bcrypt = require('bcryptjs');
+const mongo = require('mongodb');
+const mongoose = require('mongoose');
+const db = mongoose.connection;
 
-var routes = require('./routes/index');
+const routes = require('./routes/index');
 
-var app = express();
+let app = express();
 
 app.set('view engine', 'ejs');
 
@@ -54,7 +54,7 @@ app.get('*', function (req, res, next) {
 
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
-        var namespace = param.split('.')
+        let namespace = param.split('.')
             , root    = namespace.shift()
             , formParam = root;
 

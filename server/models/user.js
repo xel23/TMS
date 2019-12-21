@@ -1,14 +1,14 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const config = require('../config');
 
 mongoose.connect(config.MONGO_URL, {useNewUrlParser: true})
     .then(() => console.log('MongoDB connected!'))
     .catch(err => console.log(err));
 
-var db = mongoose.connection;
+let db = mongoose.connection;
 
-var UserSchema = mongoose.Schema({
+let UserSchema = mongoose.Schema({
     username: {
         type: String,
         index: true
@@ -24,14 +24,14 @@ var UserSchema = mongoose.Schema({
     }
 });
 
-var User = module.exports = mongoose.model('User', UserSchema);
+let User = module.exports = mongoose.model('User', UserSchema);
 
 module.exports.getUserById = function(id, callback) {
     User.findById(id, callback);
 };
 
 module.exports.getUserByUsername = function(username, callback) {
-    var query = {username: username};
+    let query = {username: username};
     User.findOne(query, callback);
 };
 
