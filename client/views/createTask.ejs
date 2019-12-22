@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/plain" href="/stylesheets/style.css">
+
+    <title>Task list</title>
+</head>
+<body>
+<%- include('navbar') %>
+<div class="container">
+    <h1 class="mb-3">Create Task</h1>
+    <div>
+        <form method="post" action="/createTask">
+            <div class="form-group w-100">
+                <label>Summary</label>
+                <input name="summary" type="text" class="form-control w-100" placeholder="Enter summary">
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <textarea name="description" class="form-control" placeholder="Enter description"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Assignee</label>
+                <input name="username" type="text" class="form-control" placeholder="Enter username">
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <input name="type" type="password" class="form-control" placeholder="Enter password">
+            </div>
+            <div class="form-group">
+                <label>Priority</label>
+                <input name="priority" type="password" class="form-control" placeholder="Confirm password">
+            </div>
+            <button name="submit" value="Register" type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

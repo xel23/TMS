@@ -22,12 +22,6 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '../client/views'));
 app.use(express.static(path.join(__dirname, '../client/public')));
 
-// let data = [1, 2, 3, 5, 6, 11];
-//
-// app.get('/', function (req, res) {
-//     res.render('index', {data: data});
-// });
-
 app.use(parser.urlencoded({ extended: false }));
 app.use(parser.json());
 app.use(cookieParser());

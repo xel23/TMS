@@ -49,3 +49,13 @@ module.exports.createUser = function (newUser, callback) {
         });
     });
 };
+
+module.exports.getAllUsers = (callback) => {
+    User.find({}, (err, result) => {
+        if (err) {
+            callback();
+        } else {
+            return result;
+        }
+    })
+};

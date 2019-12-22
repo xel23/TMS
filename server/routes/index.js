@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
+const Task = require('../models/task');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-router.get('/', function (req, res, next) {
+router.get('/', function (req, res) {
     res.send('home');
 });
 
-router.get('/login', function (req, res, next) {
+router.get('/login', function (req, res) {
     res.render('login', {title: 'Login'});
 });
 
@@ -46,16 +47,12 @@ passport.use(new LocalStrategy(function (username, password, done) {
     });
 }));
 
-router.get('/register', function (req, res, next) {
+router.get('/register', function (req, res) {
     res.render('register', {title: 'Register', errors: null});
 });
 
-router.post('/register', function (req, res, next) {
-    let name = req.body.name;
-    let email = req.body.email;
-    let username = req.body.username;
-    let password = req.body.password;
-    let password_2 = req.body.password_2;
+router.post('/register', function (req, res) {
+    const {name, email, username, password, password_2} = req.body;
 
     req.checkBody('name', 'Name field is required').notEmpty();
     req.checkBody('email', 'Email field is required').notEmpty();
@@ -84,15 +81,15 @@ router.post('/register', function (req, res, next) {
     }
 });
 
-router.get('/profile', ensureAuthenticated, function (req, res, next) {
+router.get('/profile', ensureAuthenticated, function (req, res) {
     res.send('profile')
 });
 
-router.get('/task-list', ensureAuthenticated, function (req, res, next) {
+router.get('/task-list', ensureAuthenticated, function (req, res) {
     res.render('list', {title: 'List'});
 });
 
-router.get('/dashboard', ensureAuthenticated, function (req, res, next) {
+router.get('/dashboard', ensureAuthenticated, function (req, res) {
     res.render('dashboard', {title: 'Dashboard'});
 });
 
@@ -103,10 +100,38 @@ function ensureAuthenticated(req, res, next){
     res.redirect('/login');
 }
 
-router.get('/logout', function (req, res, next) {
+router.get('/logout', function (req, res) {
     req.logout();
     req.flash('success', 'You are now logged out');
     res.redirect('/login');
+});
+
+router.get('/createTask', ensureAuthenticated, (req, res) => {
+    Task.find({}).then(tasks => {
+        res.render('createTask', {title: 'Create Task', tasks: tasks})
+    });
+});
+
+router.post('/createTask', ensureAuthenticated, (req, res) => {
+    const {summary, description, username, type, priority} = req.body;
+
+    req.checkBody('summary', 'Summary filed is required').notEmpty();
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+        res.render('createTask', {title: 'Create Task', errors: errors})
+    } else {
+        Task.create({
+            summary: summary,
+            description: description || 'No description',
+            username: username.name || 'Unassigneed',
+            type: type || 'Untype',
+            priority: priority || 'Normal'
+        }).then(task => {
+            res.redirect('/list');
+        })
+    }
 });
 
 module.exports = router;
