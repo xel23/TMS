@@ -9,17 +9,23 @@ mongoose.connect(config.MONGO_URL, {useNewUrlParser: true})
 let db = mongoose.connection;
 
 let TaskSchema = mongoose.Schema({
-    username: {
+    summary: {
         type: String,
         index: true
     },
-    password: {
+    description: {
         type: String
     },
-    email: {
+    assignee: {
         type: String
     },
-    name: {
-        type: String
+    type: {
+        type: Number
+    },
+    priority: {
+        type: Number
     }
 });
+
+
+let Task = module.exports = mongoose.model('Task', TaskSchema);
