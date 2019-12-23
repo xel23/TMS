@@ -91,6 +91,41 @@ router.get('/task-list', ensureAuthenticated, function (req, res) {
     });
 });
 
+router.get('/editTask/:id', ensureAuthenticated, function (req, res) {
+    let task_id = req.params.id;
+    Task.find({ _id : task_id }).then(task => {
+        res.render('editTask', {title: 'Edit Task', task: task, errors: null})
+    });
+});
+
+router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
+    const {summary, description, username, type, priority} = req.body;
+
+    req.checkBody('summary', 'Summary filed is required').notEmpty();
+
+    let errors = req.validationErrors();
+
+    if (errors) {
+        let task_id = req.params.id;
+        Task.find({ _id : task_id }).then(task => {
+            res.render('editTask', {title: 'Edit Task', task: task, errors: errors})
+        });
+    } else {
+        Task.updateOne({
+            _id: req.params.id
+        },
+        {
+            summary: summary,
+            description: description || 'No description',
+            assignee: username || 'Unassigneed',
+            type: type || '1',
+            priority: priority || '2'
+        }).then(task => {
+            res.redirect('/task-list');
+        })
+    }
+});
+
 router.get('/dashboard', ensureAuthenticated, function (req, res) {
     res.render('dashboard', {title: 'Dashboard'});
 });
@@ -109,7 +144,7 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/createTask', ensureAuthenticated, (req, res) => {
-    res.render('createTask', {title: 'Create Task'});
+    res.render('createTask', {title: 'Create Task', errors: null});
 });
 
 router.post('/createTask', ensureAuthenticated, (req, res) => {
@@ -125,7 +160,7 @@ router.post('/createTask', ensureAuthenticated, (req, res) => {
         Task.create({
             summary: summary,
             description: description || 'No description',
-            username: username.name || 'Unassigneed',
+            assignee: username || 'Unassigneed',
             type: type || '1',
             priority: priority || '2'
         }).then(task => {
