@@ -46,6 +46,11 @@ app.get('*', function (req, res, next) {
     next();
 });
 
+app.post('*', function (req, res, next) {
+    res.locals.user = req.user || null;
+    next();
+});
+
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
         let namespace = param.split('.')
