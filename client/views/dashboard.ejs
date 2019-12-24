@@ -5,12 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/plain" href="/stylesheets/style.css">
 
     <title>Dashboard</title>
+
+    <style>
+        .dashboard-container {
+            min-height: 400px;
+            display: flex;
+            padding-bottom: 15px;
+        }
+        .open-tasks-container, .in-progress-tasks-container, .review-tasks-container, .done-tasks-container {
+            border: 1px solid rgba(15, 15, 15, 0.2);
+            box-shadow: 0 0 20px 2px rgba(15, 15, 15, 0.2);
+            padding: 0;
+        }
+        .dashboard-headers {
+            padding: 10px;
+            font-size: 22px;
+            text-align: center;
+            color: white;
+        }
+        .header-open {
+            background-color: mediumpurple;
+        }
+        .header-in-progress {
+            background-color: deepskyblue;
+        }
+        .header-review {
+            background-color: orange;
+        }
+        .header-done {
+            background-color: mediumaquamarine;
+        }
+        .card {
+            margin: 10px;
+        }
+    </style>
 </head>
 <body>
     <%- include('navbar') %>
-    <h3 style="padding: 15px">Dashboard</h3>
+    <h2 style="padding: 15px">Dashboard</h2>
+    <div class="dashboard-container col-12">
+        <div id="open-tasks" class="open-tasks-container col-3">
+            <div class="dashboard-headers header-open">Open</div>
+                <% let i = 1; tasks.forEach(task => { %>
+                    <div id="draggable-<%= i %>" class="card">
+                        <h5 class="card-header primary-color white-text"><%= task.summary %></h5>
+                        <div class="card-body">
+                            <p class="card-text"><%= task.description %></p>
+                        </div>
+                    </div>
+                    <% i ++ %>
+                <% }); %>
+        </div>
+        <div id="in-progress-tasks" class="in-progress-tasks-container col-3">
+            <div class="dashboard-headers header-in-progress">In Progress</div>
+        </div>
+        <div id="review-tasks" class="review-tasks-container col-3">
+            <div class="dashboard-headers header-review">Review</div>
+        </div>
+        <div id="done-tasks" class="done-tasks-container col-3">
+            <div class="dashboard-headers header-done">Done</div>
+        </div>
+    </div>
+
+    <script>
+        let cards = document.getElementsByClassName("card");
+        let card, card_parent;
+        for (let i = 0; i < cards.length; i++) {
+            $('#'+cards[i].id).draggable({
+                start: function( event, ui ) {
+                    card = event.target;
+                    card_parent = event.target.parentElement;
+                }
+            })
+        }
+        $( "#open-tasks" ).droppable({
+            drop: function(event, ui) {
+                card_parent.removeChild(card);
+                card.style.top = '0';
+                card.style.left = '0';
+                card.style.right = '0';
+                card.style.bottom = '0';
+                document.getElementById('open-tasks').appendChild(card);
+            }
+        });
+        $( "#in-progress-tasks" ).droppable({
+            drop: function(event, ui) {
+                card_parent.removeChild(card);
+                card.style.top = '0';
+                card.style.left = '0';
+                card.style.right = '0';
+                card.style.bottom = '0';
+                document.getElementById('in-progress-tasks').appendChild(card);
+            }
+        });
+        $( "#review-tasks" ).droppable({
+            drop: function(event, ui) {
+                card_parent.removeChild(card);
+                card.style.top = '0';
+                card.style.left = '0';
+                card.style.right = '0';
+                card.style.bottom = '0';
+                document.getElementById('review-tasks').appendChild(card);
+            }
+        });
+        $( "#done-tasks" ).droppable({
+            drop: function(event, ui) {
+                card_parent.removeChild(card);
+                card.style.top = '0';
+                card.style.left = '0';
+                card.style.right = '0';
+                card.style.bottom = '0';
+                document.getElementById('done-tasks').appendChild(card);
+            }
+        });
+    </script>
 </body>
 </html>
