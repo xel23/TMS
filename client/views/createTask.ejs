@@ -35,9 +35,21 @@
                 <input name="username" type="text" class="form-control" placeholder="Enter username">
             </div>
             <div class="form-group">
+                <label>Status</label>
+                <select name="type" class="custom-select">
+                    <% let i = 1; for (let j in status) {%>
+                        <% if (i == 1) {%>
+                            <option value="<%= i++; %>" selected><%= status[j]; %></option>
+                        <%} else {%>
+                            <option value="<%= i++; %>"><%= status[j]; %></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Type</label>
                 <select name="type" class="custom-select">
-                    <% let i = 1; for (type in types) {%>
+                    <% i = 1; for (let type in types) {%>
                         <% if (i == 1) {%>
                             <option value="<%= i++; %>" selected><%= types[type]; %></option>
                         <%} else {%>
@@ -49,10 +61,13 @@
             <div class="form-group">
                 <label>Priority</label>
                 <select name="priority" class="custom-select">
-                    <option value="1" selected>Minor</option>
-                    <option value="2">Normal</option>
-                    <option value="3">Major</option>
-                    <option value="4">Critical</option>
+                    <% i = 1; for (let priority in priorities) {%>
+                        <% if (i == 1) {%>
+                            <option value="<%= i++; %>" selected><%= priorities[priority]; %></option>
+                        <%} else {%>
+                            <option value="<%= i++; %>"><%= priorities[priority]; %></option>
+                        <% } %>
+                    <% } %>
                 </select>
             </div>
             <button name="submit" value="Register" type="submit" class="btn btn-primary">Create</button>

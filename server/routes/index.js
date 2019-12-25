@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require('../models/user');
 const Task = require('../models/task');
 const Type = require('../src/general/Type');
+const Priority = require('../src/general/Priority');
+const Status = require('../src/general/Status');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -148,7 +150,9 @@ router.get('/createTask', ensureAuthenticated, (req, res) => {
     res.render('createTask', {
         title: 'Create Task',
         errors: null,
-        types: Type
+        types: Type,
+        priorities: Priority,
+        status: Status
     });
 });
 
