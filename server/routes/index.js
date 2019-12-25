@@ -90,7 +90,13 @@ router.get('/profile', ensureAuthenticated, function (req, res) {
 
 router.get('/task-list', ensureAuthenticated, function (req, res) {
     Task.find({}).then(tasks => {
-        res.render('list', {title: 'Tasks List', tasks: tasks})
+        res.render('list', {
+            title: 'Tasks List',
+            tasks: tasks,
+            status: Status,
+            priorities: Priority,
+            types: Type
+        })
     });
 });
 
@@ -157,7 +163,7 @@ router.get('/createTask', ensureAuthenticated, (req, res) => {
 });
 
 router.post('/createTask', ensureAuthenticated, (req, res) => {
-    const {summary, description, username, type, priority} = req.body;
+    const {summary, description, username, type, priority, status} = req.body;
 
     req.checkBody('summary', 'Summary filed is required').notEmpty();
 
@@ -170,8 +176,9 @@ router.post('/createTask', ensureAuthenticated, (req, res) => {
             summary: summary,
             description: description || 'No description',
             assignee: username || 'Unassigneed',
-            type: type || '1',
-            priority: priority || '2'
+            type: type,
+            priority: priority,
+            status: status
         }).then(task => {
             res.redirect('/task-list');
         })

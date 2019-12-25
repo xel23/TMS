@@ -17,3 +17,8 @@ ul.error li{
     background-color: #f2dede;
     list-style-type: none;
 }
+
+
+.btn-status, .btn-type, .btn-priority {
+    display: inline-block;
+}
