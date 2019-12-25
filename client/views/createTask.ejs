@@ -37,9 +37,13 @@
             <div class="form-group">
                 <label>Type</label>
                 <select name="type" class="custom-select">
-                    <option value="1" selected>Bug</option>
-                    <option value="2">Task</option>
-                    <option value="3">Feature</option>
+                    <% let i = 1; for (type in types) {%>
+                        <% if (i == 1) {%>
+                            <option value="<%= i++; %>" selected><%= types[type]; %></option>
+                        <%} else {%>
+                            <option value="<%= i++; %>"><%= types[type]; %></option>
+                        <% } %>
+                    <% } %>
                 </select>
             </div>
             <div class="form-group">

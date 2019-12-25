@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const Task = require('../models/task');
+const Type = require('../src/general/Type');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
@@ -144,7 +145,11 @@ router.get('/logout', function (req, res) {
 });
 
 router.get('/createTask', ensureAuthenticated, (req, res) => {
-    res.render('createTask', {title: 'Create Task', errors: null});
+    res.render('createTask', {
+        title: 'Create Task',
+        errors: null,
+        types: Type
+    });
 });
 
 router.post('/createTask', ensureAuthenticated, (req, res) => {
