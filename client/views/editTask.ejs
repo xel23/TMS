@@ -35,20 +35,39 @@
                 <input name="username" type="text" class="form-control" placeholder="Enter username" value="<%= task[0].assignee %>">
             </div>
             <div class="form-group">
+                <label>Status</label>
+                <select name="status" class="custom-select">
+                    <% for (let j in status) {%>
+                        <% if (status[j] === status[task[0].status]) {%>
+                            <option value="<%= j; %>" selected><%= status[j]; %></option>
+                        <%} else {%>
+                            <option value="<%= j; %>"><%= status[j]; %></option>
+                        <% } %>
+                    <% } %>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Type</label>
                 <select name="type" class="custom-select">
-                    <option value="1" <%= task[0].type === 1 ? 'selected' : '' %>>Bug</option>
-                    <option value="2" <%= task[0].type === 2 ? 'selected' : '' %>>Task</option>
-                    <option value="3" <%= task[0].type === 3 ? 'selected' : '' %>>Feature</option>
+                    <% for (let type in types) {%>
+                        <% if (types[type] == types[task[0].type]) {%>
+                            <option value="<%= type; %>" selected><%= types[type]; %></option>
+                        <%} else {%>
+                            <option value="<%= type; %>"><%= types[type]; %></option>
+                        <% } %>
+                    <% } %>
                 </select>
             </div>
             <div class="form-group">
                 <label>Priority</label>
                 <select name="priority" class="custom-select">
-                    <option value="1" <%= task[0].priority === 1 ? 'selected' : '' %>>Minor</option>
-                    <option value="2" <%= task[0].priority === 2 ? 'selected' : '' %>>Normal</option>
-                    <option value="3" <%= task[0].priority === 3 ? 'selected' : '' %>>Major</option>
-                    <option value="4" <%= task[0].priority === 4 ? 'selected' : '' %>>Critical</option>
+                    <% for (let priority in priorities) {%>
+                        <% if (priorities[priority] == priorities[task[0].priority]) {%>
+                            <option value="<%= priority; %>" selected><%= priorities[priority]; %></option>
+                        <%} else {%>
+                            <option value="<%= priority; %>"><%= priorities[priority]; %></option>
+                        <% } %>
+                    <% } %>
                 </select>
             </div>
             <button name="submit" value="Register" type="submit" class="btn btn-primary">Update</button>

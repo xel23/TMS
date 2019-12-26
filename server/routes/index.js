@@ -103,12 +103,19 @@ router.get('/task-list', ensureAuthenticated, function (req, res) {
 router.get('/editTask/:id', ensureAuthenticated, function (req, res) {
     let task_id = req.params.id;
     Task.find({ _id : task_id }).then(task => {
-        res.render('editTask', {title: 'Edit Task', task: task, errors: null})
+        res.render('editTask', {
+            title: 'Edit Task',
+            task: task,
+            errors: null,
+            types: Type,
+            priorities: Priority,
+            status: Status
+        })
     });
 });
 
 router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
-    const {summary, description, username, type, priority} = req.body;
+    const {summary, description, username, type, priority, status} = req.body;
 
     req.checkBody('summary', 'Summary filed is required').notEmpty();
 
@@ -117,7 +124,14 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
     if (errors) {
         let task_id = req.params.id;
         Task.find({ _id : task_id }).then(task => {
-            res.render('editTask', {title: 'Edit Task', task: task, errors: errors})
+            res.render('editTask', {
+                title: 'Edit Task',
+                task: task,
+                errors: errors,
+                types: Type,
+                priorities: Priority,
+                status: Status
+            })
         });
     } else {
         Task.updateOne({
@@ -127,8 +141,9 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
             summary: summary,
             description: description || 'No description',
             assignee: username || 'Unassigneed',
-            type: type || '1',
-            priority: priority || '2'
+            type: type,
+            priority: priority,
+            status: status
         }).then(task => {
             res.redirect('/task-list');
         })
