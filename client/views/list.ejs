@@ -19,11 +19,11 @@
             </button>
         </div>
         <div>
-            <table style="width: 100%; margin-left: 15px">
+            <table style="width: 100%; margin-left: 15px; margin-bottom: 10px">
                 <% tasks.forEach(task => { %>
                     <tr>
                         <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px; padding-left: 15px">
-                            <h5 style="font-weight: normal"><%= task.summary %></h5>
+                            <h4 style="font-weight: normal; padding-bottom: 5px"><%= task.summary %></h4>
                             <span>
                                 <button class="btn btn-info btn-status"><%= status[task.status] %></button>
                             </span>
@@ -33,7 +33,7 @@
                             <span>
                                 <button class="btn btn-info btn-priority"><%= priorities[task.priority] %></button>
                             </span>
-                            <p><%= task.description %></p>
+                            <p style="padding-top: 10px; margin-bottom: 0"><%= task.description %></p>
                         </td>
                         <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px; text-align: center; width: 250px">
                             <button class="btn btn-primary" onclick="javascript:document.location.href='/editTask/<%= task.id %>'">Edit Task</button>
