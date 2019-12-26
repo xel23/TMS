@@ -170,7 +170,13 @@ router.post('/createTask', ensureAuthenticated, (req, res) => {
     let errors = req.validationErrors();
 
     if (errors) {
-        res.render('createTask', {title: 'Create Task', errors: errors})
+        res.render('createTask', {
+            title: 'Create Task',
+            errors: errors,
+            types: Type,
+            priorities: Priority,
+            status: Status
+        })
     } else {
         Task.create({
             summary: summary,
