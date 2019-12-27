@@ -141,6 +141,8 @@ router.get('/dashboard', ensureAuthenticated, function (req, res) {
             title: 'Dashboard',
             tasks: tasks,
             status: Status,
+            priorities: Priority,
+            types: Type
         })
     });
 });
