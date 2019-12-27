@@ -20,10 +20,13 @@ let TaskSchema = mongoose.Schema({
         type: String
     },
     type: {
-        type: Number
+        type: String
     },
     priority: {
-        type: Number
+        type: String
+    },
+    status: {
+        type: String
     }
 });
 
