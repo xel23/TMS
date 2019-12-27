@@ -13,29 +13,35 @@
             min-height: 400px;
             display: flex;
             padding-bottom: 15px;
+            overflow-y: auto;
+            margin-left: 15px;
+            margin-right: 15px;
         }
-        .open-tasks-container, .in-progress-tasks-container, .review-tasks-container, .done-tasks-container {
+        .OPEN-tasks-container, .IN_PROGRESS-tasks-container, .WAIT-tasks-container, .FIXED-tasks-container, .VERIFIED-tasks-container {
             border: 1px solid rgba(15, 15, 15, 0.2);
             box-shadow: 0 0 20px 2px rgba(15, 15, 15, 0.2);
             padding: 0;
         }
         .dashboard-headers {
             padding: 10px;
-            font-size: 22px;
+            font-size: 17px;
             text-align: center;
             color: white;
         }
-        .header-open {
+        .header-OPEN {
             background-color: mediumpurple;
         }
-        .header-in-progress {
+        .header-IN_PROGRESS {
             background-color: deepskyblue;
         }
-        .header-review {
+        .header-WAIT {
             background-color: orange;
         }
-        .header-done {
+        .header-FIXED {
             background-color: mediumaquamarine;
+        }
+        .header-VERIFIED {
+            background-color: palevioletred;
         }
         .card {
             margin: 10px;
@@ -45,31 +51,26 @@
 <body>
     <%- include('navbar') %>
     <h2 style="padding: 15px">Dashboard</h2>
-    <div class="dashboard-container col-12">
-        <div id="open-tasks" class="open-tasks-container col-3">
-            <div class="dashboard-headers header-open">Open</div>
-                <% let i = 1; tasks.forEach(task => { %>
-                    <div id="draggable-<%= i %>" class="card">
-                        <h5 class="card-header primary-color white-text"><%= task.summary %></h5>
-                        <div class="card-body">
-                            <p class="card-text"><%= task.description %></p>
+    <div class="dashboard-container">
+        <% let i = 1; for (let j in status) { %>
+            <div id="<%= j %>-tasks" class="<%= j %>-tasks-container col-3">
+                <div class="dashboard-headers header-<%= j %>"><%= j %></div>
+                <% tasks.forEach(task => { %>
+                    <% if(task.status === j){ %>
+                        <div id="draggable-<%= i %>" class="card">
+                            <h5 class="card-header primary-color white-text"><%= task.summary %></h5>
+                            <div class="card-body">
+                                <p class="card-text"><%= task.description %></p>
+                            </div>
                         </div>
-                    </div>
-                    <% i ++ %>
+                        <% i ++ %>
+                    <% } %>
                 <% }); %>
-        </div>
-        <div id="in-progress-tasks" class="in-progress-tasks-container col-3">
-            <div class="dashboard-headers header-in-progress">In Progress</div>
-        </div>
-        <div id="review-tasks" class="review-tasks-container col-3">
-            <div class="dashboard-headers header-review">Review</div>
-        </div>
-        <div id="done-tasks" class="done-tasks-container col-3">
-            <div class="dashboard-headers header-done">Done</div>
-        </div>
+            </div>
+        <% } %>
     </div>
-
     <script>
+        const Status = ['OPEN', 'IN_PROGRESS', 'WAIT', 'FIXED', 'VERIFIED'];
         let cards = document.getElementsByClassName("card");
         let card, card_parent;
         for (let i = 0; i < cards.length; i++) {
@@ -80,46 +81,18 @@
                 }
             })
         }
-        $( "#open-tasks" ).droppable({
-            drop: function(event, ui) {
-                card_parent.removeChild(card);
-                card.style.top = '0';
-                card.style.left = '0';
-                card.style.right = '0';
-                card.style.bottom = '0';
-                document.getElementById('open-tasks').appendChild(card);
-            }
-        });
-        $( "#in-progress-tasks" ).droppable({
-            drop: function(event, ui) {
-                card_parent.removeChild(card);
-                card.style.top = '0';
-                card.style.left = '0';
-                card.style.right = '0';
-                card.style.bottom = '0';
-                document.getElementById('in-progress-tasks').appendChild(card);
-            }
-        });
-        $( "#review-tasks" ).droppable({
-            drop: function(event, ui) {
-                card_parent.removeChild(card);
-                card.style.top = '0';
-                card.style.left = '0';
-                card.style.right = '0';
-                card.style.bottom = '0';
-                document.getElementById('review-tasks').appendChild(card);
-            }
-        });
-        $( "#done-tasks" ).droppable({
-            drop: function(event, ui) {
-                card_parent.removeChild(card);
-                card.style.top = '0';
-                card.style.left = '0';
-                card.style.right = '0';
-                card.style.bottom = '0';
-                document.getElementById('done-tasks').appendChild(card);
-            }
-        });
+        for (let i = 0; i < Status.length; i++) {
+            $( `#${Status[i]}-tasks` ).droppable({
+                drop: function(event, ui) {
+                    card_parent.removeChild(card);
+                    card.style.top = '0';
+                    card.style.left = '0';
+                    card.style.right = '0';
+                    card.style.bottom = '0';
+                    document.getElementById(`${Status[i]}-tasks`).appendChild(card);
+                }
+            });
+        }
     </script>
 </body>
 </html>

@@ -137,7 +137,11 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
 
 router.get('/dashboard', ensureAuthenticated, function (req, res) {
     Task.find({}).then(tasks => {
-        res.render('dashboard', {title: 'Dashboard', tasks: tasks})
+        res.render('dashboard', {
+            title: 'Dashboard',
+            tasks: tasks,
+            status: Status,
+        })
     });
 });
 
