@@ -100,6 +100,20 @@ router.get('/task-list', ensureAuthenticated, function (req, res) {
     });
 });
 
+router.get('/tasks/:id', ensureAuthenticated, (req, res) => {
+    let task_id = req.params.id;
+    Task.find({ _id: task_id}).then(task => {
+        res.render('task', {
+            title: 'Task' + task[0].summary,
+            task: task,
+            errors: null,
+            types: Type,
+            priorities: Priority,
+            status: Status
+        })
+    });
+});
+
 router.get('/editTask/:id', ensureAuthenticated, function (req, res) {
     let task_id = req.params.id;
     Task.find({ _id : task_id }).then(task => {

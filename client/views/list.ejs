@@ -23,7 +23,7 @@
                 <% tasks.forEach(task => { %>
                     <tr>
                         <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px; padding-left: 15px">
-                            <h4 style="font-weight: normal; padding-bottom: 5px"><%= task.summary %></h4>
+                            <a href="/tasks/<%= task._id; %>"><h4 style="font-weight: normal; padding-bottom: 5px"><%= task.summary %></h4></a>
                             <span>
                                 <button class="btn btn-info btn-status"><%= status[task.status] %></button>
                             </span>

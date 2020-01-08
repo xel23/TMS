@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/plain" href="/stylesheets/task.css">
+
+    <title><%= title; %></title>
+</head>
+<body>
+<%- include('navbar') %>
+<div class="container">
+    <div>
+        <div class="row">
+            <div class="col">
+                <h2 class="mb-3" style="padding: 15px 15px 0 0">Task <%= task[0].summary; %></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-8">
+                <p><%= task[0].description; %></p>
+            </div>
+            <div class="col-4">
+                <div>
+                    <span class="sidebar-field-name"><b>Priority:</b></span>
+                    <span class="sidebar-field-value"><%= priorities[task[0].priority]; %></span>
+                </div>
+                <div>
+                    <span class="sidebar-field-name"><b>Type:</b></span>
+                    <span class="sidebar-field-value"><%= types[task[0].type]; %></span>
+                </div>
+                <div>
+                    <span class="sidebar-field-name"><b>Status:</b></span>
+                    <span class="sidebar-field-value"><%= status[task[0].status]; %></span>
+                </div>
+                <div>
+                    <span class="sidebar-field-name"><b>Assignee:</b></span>
+                    <span class="sidebar-field-value"><%= task[0].assignee; %></span>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
