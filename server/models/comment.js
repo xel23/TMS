@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
 const config = require('../config');
 
 mongoose.connect(config.MONGO_URL, {useNewUrlParser: true})
@@ -8,26 +7,20 @@ mongoose.connect(config.MONGO_URL, {useNewUrlParser: true})
 
 let db = mongoose.connection;
 
-let TaskSchema = mongoose.Schema({
-    summary: {
+let CommentSchema = mongoose.Schema({
+    id_task: {
         type: String,
         index: true
     },
-    description: {
+    comment: {
+        type: String,
+    },
+    date: {
         type: String
     },
-    assignee: {
-        type: String
-    },
-    type: {
-        type: String
-    },
-    priority: {
-        type: String
-    },
-    status: {
+    leftComment: {
         type: String
     }
 });
 
-let Task = module.exports = mongoose.model('Task', TaskSchema);
+let Comment = module.exports = mongoose.model('Comment', CommentSchema);
