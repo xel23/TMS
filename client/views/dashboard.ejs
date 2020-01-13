@@ -20,6 +20,7 @@
                     <% if(task.status === j){ %>
                         <div id="draggable-<%= i %>" class="card">
                             <h6 class="card-header primary-color white-text"><%= task.summary %></h6>
+                            <p hidden><%= task.id %></p>
                             <div class="card-body">
                                 <p class="card-text"><%= task.description %></p>
                             </div>
@@ -44,7 +45,7 @@
     <script>
         const Status = ['OPEN', 'IN_PROGRESS', 'WAIT', 'FIXED', 'VERIFIED'];
         let cards = document.getElementsByClassName("card");
-        let card, card_parent;
+        let card, card_parent, task_id, new_task_status;
         for (let i = 0; i < cards.length; i++) {
             $('#'+cards[i].id).draggable({
                 start: function( event, ui ) {
@@ -61,7 +62,14 @@
                     card.style.left = '0';
                     card.style.right = '0';
                     card.style.bottom = '0';
+                    task_id = card.getElementsByTagName("p")[0].textContent;
+                    new_task_status = Status[i];
                     document.getElementById(`${Status[i]}-tasks`).appendChild(card);
+                    $.ajax({
+                        url: `/updateTask/${task_id}`,
+                        type: 'POST',
+                        data: {status: new_task_status},
+                    });
                 }
             });
         }
