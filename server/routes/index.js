@@ -231,6 +231,22 @@ router.get('/dashboard', ensureAuthenticated, function (req, res) {
     });
 });
 
+router.post('/updateTask/:id', ensureAuthenticated, function (req, res){
+    let task_id = req.params.id;
+    let new_task_status = req.body.status;
+    Task.updateOne({
+            _id: task_id
+        },
+        {
+            $set: {
+                status: new_task_status
+            }
+        }
+    ).then(task => {
+        console.log("Task status was updated");
+    })
+});
+
 function ensureAuthenticated(req, res, next){
     if (req.isAuthenticated()){
         return next();
