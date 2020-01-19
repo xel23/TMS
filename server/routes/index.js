@@ -91,15 +91,32 @@ router.get('/profile', ensureAuthenticated, function (req, res) {
 });
 
 router.get('/task-list', ensureAuthenticated, function (req, res) {
-    Task.find({}).then(tasks => {
-        res.render('list', {
-            title: 'Tasks List',
-            tasks: tasks,
-            status: Status,
-            priorities: Priority,
-            types: Type
-        })
-    });
+    if (req.query.q) {
+        Task.find({
+            summary: new RegExp(req.query.q, 'i')
+        }).then(tasks => {
+            res.render('list', {
+                title: 'Tasks List',
+                tasks: tasks,
+                status: Status,
+                priorities: Priority,
+                types: Type,
+                searchValue: req.query.q
+            })
+        });
+    } else {
+        Task.find({}).then(tasks => {
+            res.render('list', {
+                title: 'Tasks List',
+                tasks: tasks,
+                status: Status,
+                priorities: Priority,
+                types: Type,
+                searchValue: null
+            })
+        });
+    }
+
 });
 
 router.get('/tasks/:id', ensureAuthenticated, (req, res) => {
