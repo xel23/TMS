@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" type="text/plain" href="/stylesheets/task.css">
 
-    <title><%= title; %></title>
+    <title><%= title %></title>
 </head>
 <body>
 <%- include('navbar') %>
@@ -15,7 +15,7 @@
     <div>
         <div class="row">
             <div class="col">
-                <h2 class="mb-3" style="padding: 15px 15px 0 0">Task <%= task[0].summary; %></h2>
+                <h2 class="mb-3" style="padding: 15px 15px 0 0">Task: <%= task[0].summary; %></h2>
             </div>
         </div>
         <div class="row">
@@ -41,11 +41,59 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col">
-
+    </div>
+    <div>
+        <% if (comments.length != 0) { %>
+            <h3 class="mb-3" style="padding: 15px 15px 0 0">Comments:</h3>
+            <div style="max-height: 300px; overflow: auto; padding-right: 10px">
+                <table style="width: 100%">
+                    <% for (var n = 0; n < comments.length; n++) {%>
+                        <% if (n === 0) { %>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-bottom: 15px">
+                                <span>
+                                    <button class="btn btn-info btn-status"><%= comments[n].leftComment %></button>
+                                </span>
+                                <span>
+                                    <button class="btn btn-info btn-type"><%= comments[n].date %></button>
+                                </span>
+                                <textarea readonly style="margin-top: 15px; margin-bottom: 0; width: 100%; border-color: lightgrey"><%= comments[n].comment %></textarea>
+                                </td>
+                            </tr>
+                        <% } else{ %>
+                            <tr>
+                                <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px">
+                                <span>
+                                    <button class="btn btn-info btn-status"><%= comments[n].leftComment %></button>
+                                </span>
+                                <span>
+                                    <button class="btn btn-info btn-type"><%= comments[n].date %></button>
+                                </span>
+                                <br>
+                                <textarea readonly style="margin-top: 15px; margin-bottom: 0; width: 100%; border-color: lightgrey"><%= comments[n].comment %></textarea>
+                                </td>
+                            </tr>
+                        <% } %>
+                    <% } %>
+                </table>
             </div>
-        </div>
+        <% } %>
+    </div>
+    <div style="margin-bottom: 10px">
+        <h3 class="mb-3" style="padding: 15px 15px 0 0">Add new comment:</h3>
+        <form method="post" action="/tasks/<%= task[0].id %>">
+            <% if (errors) { %>
+                <% for (var n = 0; n < errors.length; n++) {%>
+                    <div class="alert alert-danger">
+                        <%= errors[n].msg %>
+                    </div>
+                <% } %>
+            <% } %>
+            <div class="form-group">
+                <textarea name="comment" class="form-control" placeholder="Enter comment"></textarea>
+            </div>
+            <button name="submit" value="Comment" type="submit" class="btn btn-primary">Comment</button>
+        </form>
     </div>
 </div>
 </body>
