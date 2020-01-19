@@ -12,6 +12,26 @@
     <%- include('navbar') %>
     <div class="container">
         <h2 style="padding: 15px">Task list</h2>
+        <div class="input-group mb-3">
+            <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Task..."
+                    id="searchField"
+                    aria-describedby="button-addon2"
+                    value="<%= searchValue%>"
+            >
+            <div class="input-group-append">
+                <button
+                        class="btn btn-outline-secondary"
+                        type="button"
+                        id="button-addon2"
+                        onclick="javascript:document.location.href='/task-list?q=' +
+                        document.getElementById('searchField').value">
+                    Search
+                </button>
+            </div>
+        </div>
         <div class="row" style="padding-left: 30px; padding-bottom: 15px">
             <button class="btn btn-primary"
                     onclick="javascript:document.location.href='/createTask'">
@@ -43,6 +63,12 @@
             </table>
         </div>
     </div>
+
+    <script>document.getElementById('searchField').onkeypress = event => {
+            if (event.keyCode === 13) {
+                document.location.href='/task-list?q=' + document.getElementById('searchField').value;
+            }
+        }</script>
 </body>
 </html>
 
