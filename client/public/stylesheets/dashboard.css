@@ -1,0 +1,46 @@
+.dashboard-container {
+    min-height: 400px;
+    display: flex;
+    padding-bottom: 5px;
+    overflow-y: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+.OPEN-tasks-container, .IN_PROGRESS-tasks-container, .WAIT-tasks-container, .FIXED-tasks-container, .VERIFIED-tasks-container {
+    border: 1px solid rgba(15, 15, 15, 0.2);
+    box-shadow: 0 0 20px 2px rgba(15, 15, 15, 0.2);
+    padding: 0;
+    min-width: 300px;
+}
+.dashboard-headers {
+    padding: 10px;
+    font-size: 17px;
+    text-align: center;
+    color: white;
+}
+.header-OPEN {
+    background-color: mediumpurple;
+}
+.header-IN_PROGRESS {
+    background-color: deepskyblue;
+}
+.header-WAIT {
+    background-color: orange;
+}
+.header-FIXED {
+    background-color: mediumaquamarine;
+}
+.header-VERIFIED {
+    background-color: palevioletred;
+}
+.card {
+    margin: 10px;
+}
+.card-body {
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+.labels {
+    padding: 0 20px 15px;
+    width: max-content;
+}

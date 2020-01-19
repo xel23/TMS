@@ -5,12 +5,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/plain" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/dashboard.css">
 
     <title>Dashboard</title>
 </head>
 <body>
     <%- include('navbar') %>
-    <h3 style="padding: 15px">Dashboard</h3>
+    <h2 style="padding: 15px">Dashboard</h2>
+    <div class="dashboard-container">
+        <% let i = 1; for (let j in status) { %>
+            <div id="<%= j %>-tasks" class="<%= j %>-tasks-container">
+                <div class="dashboard-headers header-<%= j %>"><%= j %></div>
+                <% tasks.forEach(task => { %>
+                    <% if(task.status === j){ %>
+                        <div id="draggable-<%= i %>" class="card">
+                            <h6 class="card-header primary-color white-text"><%= task.summary %></h6>
+                            <div class="card-body">
+                                <p class="card-text"><%= task.description %></p>
+                            </div>
+                            <div class="labels">
+                                <span>
+                                    <button class="btn btn-info btn-status"><%= types[task.type] %></button>
+                                </span>
+                                <span>
+                                    <button class="btn btn-info btn-type"><%= priorities[task.priority] %></button>
+                                </span>
+                                <span>
+                                    <button class="btn btn-info btn-priority"><%= task.assignee %></button>
+                                </span>
+                            </div>
+                        </div>
+                        <% i ++ %>
+                    <% } %>
+                <% }); %>
+            </div>
+        <% } %>
+    </div>
+    <script>
+        const Status = ['OPEN', 'IN_PROGRESS', 'WAIT', 'FIXED', 'VERIFIED'];
+        let cards = document.getElementsByClassName("card");
+        let card, card_parent;
+        for (let i = 0; i < cards.length; i++) {
+            $('#'+cards[i].id).draggable({
+                start: function( event, ui ) {
+                    card = event.target;
+                    card_parent = event.target.parentElement;
+                }
+            })
+        }
+        for (let i = 0; i < Status.length; i++) {
+            $( `#${Status[i]}-tasks` ).droppable({
+                drop: function(event, ui) {
+                    card_parent.removeChild(card);
+                    card.style.top = '0';
+                    card.style.left = '0';
+                    card.style.right = '0';
+                    card.style.bottom = '0';
+                    document.getElementById(`${Status[i]}-tasks`).appendChild(card);
+                }
+            });
+        }
+    </script>
 </body>
 </html>

@@ -165,7 +165,15 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
 });
 
 router.get('/dashboard', ensureAuthenticated, function (req, res) {
-    res.render('dashboard', {title: 'Dashboard'});
+    Task.find({}).then(tasks => {
+        res.render('dashboard', {
+            title: 'Dashboard',
+            tasks: tasks,
+            status: Status,
+            priorities: Priority,
+            types: Type
+        })
+    });
 });
 
 function ensureAuthenticated(req, res, next){
