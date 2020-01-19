@@ -1,0 +1,76 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/plain" href="/stylesheets/style.css">
+
+    <title><%= title %></title>
+</head>
+<body>
+<%- include('navbar') %>
+<div class="container">
+    <h2 style="padding: 15px">Archive</h2>
+    <div class="input-group mb-3">
+        <input
+                type="text"
+                class="form-control"
+                placeholder="Task..."
+                id="searchField"
+                aria-describedby="button-addon2"
+                value="<%= searchValue%>"
+        >
+        <div class="input-group-append">
+            <button
+                    class="btn btn-outline-secondary"
+                    type="button"
+                    id="button-addon2"
+                    onclick="javascript:document.location.href='/archive?q=' +
+                        document.getElementById('searchField').value">
+                Search
+            </button>
+        </div>
+    </div>
+    <div>
+        <table style="width: 100%; margin-left: 15px; margin-bottom: 10px">
+            <% tasks.forEach(task => { %>
+                <tr id="task-<%= task.id %>">
+                    <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px; padding-left: 15px">
+                        <a href="/tasks/<%= task._id; %>"><h4 style="font-weight: normal; padding-bottom: 5px"><%= task.summary %></h4></a>
+                        <span>
+                                <button class="btn btn-info btn-status"><%= status[task.status] %></button>
+                            </span>
+                        <span>
+                                <button class="btn btn-info btn-type"><%= types[task.type] %></button>
+                            </span>
+                        <span>
+                                <button class="btn btn-info btn-priority"><%= priorities[task.priority] %></button>
+                            </span>
+                        <p style="padding-top: 10px; margin-bottom: 0"><%= task.description %></p>
+                    </td>
+                    <td style="border-bottom: 1px solid black; padding-bottom: 15px; padding-top: 15px; text-align: center; width: 250px">
+                        <button class="btn btn-success" onclick="openTask('<%= task.id %>')">Open Task</button>
+                    </td>
+                </tr>
+            <% }); %>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.getElementById('searchField').onkeypress = event => {
+        if (event.keyCode === 13) {
+            document.location.href='/archive?q=' + document.getElementById('searchField').value;
+        }
+    }
+
+    function openTask(id) {
+        document.getElementById('task-' + id).remove();
+        document.location.href='/open/' + id;
+    }
+</script>
+</body>
+</html>
+
+

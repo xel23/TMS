@@ -123,7 +123,37 @@ router.get('/task-list', ensureAuthenticated, function (req, res) {
             })
         });
     }
+});
 
+router.get('/archive', ensureAuthenticated, function (req, res) {
+    if (req.query.q) {
+        Task.find({
+            summary: new RegExp(req.query.q, 'i'),
+            status: 'CLOSED'
+        }).then(tasks => {
+            res.render('archive', {
+                title: 'Archive',
+                tasks: tasks,
+                status: Status,
+                priorities: Priority,
+                types: Type,
+                searchValue: req.query.q
+            })
+        });
+    } else {
+        Task.find({
+            status: 'CLOSED'
+        }).then(tasks => {
+            res.render('archive', {
+                title: 'Archive',
+                tasks: tasks,
+                status: Status,
+                priorities: Priority,
+                types: Type,
+                searchValue: null
+            })
+        });
+    }
 });
 
 router.get('/tasks/:id', ensureAuthenticated, (req, res) => {
@@ -227,7 +257,11 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
 });
 
 router.get('/dashboard', ensureAuthenticated, function (req, res) {
-    Task.find({}).then(tasks => {
+    Task.find({
+        status: {
+            $ne: 'CLOSED'
+        }
+    }).then(tasks => {
         res.render('dashboard', {
             title: 'Dashboard',
             tasks: tasks,
@@ -270,6 +304,24 @@ router.get('/close/:id', ensureAuthenticated, (req, res) => {
     });
 
     res.redirect('/task-list');
+});
+
+router.get('/open/:id', ensureAuthenticated, (req, res) => {
+    let task_id = req.params.id;
+
+    Task.updateOne({
+            _id: task_id
+        },
+        {
+            $set: {
+                status: "OPEN"
+            }
+        }
+    ).then(task => {
+        console.log("Task was reopened");
+    });
+
+    res.redirect('/archive');
 });
 
 function ensureAuthenticated(req, res, next){
