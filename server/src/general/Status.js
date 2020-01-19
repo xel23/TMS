@@ -3,7 +3,8 @@ const Status = {
     IN_PROGRESS: 'In progress',
     WAIT: 'Waiting for reply',
     FIXED: 'Fixed',
-    VERIFIED: 'Verified'
+    VERIFIED: 'Verified',
+    CLOSED: 'Closed'
 };
 
 module.exports = Status;

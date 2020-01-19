@@ -93,7 +93,10 @@ router.get('/profile', ensureAuthenticated, function (req, res) {
 router.get('/task-list', ensureAuthenticated, function (req, res) {
     if (req.query.q) {
         Task.find({
-            summary: new RegExp(req.query.q, 'i')
+            summary: new RegExp(req.query.q, 'i'),
+            status: {
+                $ne: 'CLOSED'
+            }
         }).then(tasks => {
             res.render('list', {
                 title: 'Tasks List',
@@ -105,7 +108,11 @@ router.get('/task-list', ensureAuthenticated, function (req, res) {
             })
         });
     } else {
-        Task.find({}).then(tasks => {
+        Task.find({
+            status: {
+                $ne: 'CLOSED'
+            }
+        }).then(tasks => {
             res.render('list', {
                 title: 'Tasks List',
                 tasks: tasks,
@@ -245,6 +252,24 @@ router.post('/updateTask/:id', ensureAuthenticated, function (req, res){
     ).then(task => {
         console.log("Task status was updated");
     })
+});
+
+router.get('/close/:id', ensureAuthenticated, (req, res) => {
+    let task_id = req.params.id;
+
+    Task.updateOne({
+            _id: task_id
+        },
+        {
+            $set: {
+                status: "CLOSED"
+            }
+        }
+    ).then(task => {
+        console.log("Task was closed");
+    });
+
+    res.redirect('/task-list');
 });
 
 function ensureAuthenticated(req, res, next){
