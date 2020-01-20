@@ -249,7 +249,8 @@ router.post('/editTask/:id', ensureAuthenticated, (req, res) => {
             assignee: username || 'Unassigneed',
             type: type,
             priority: priority,
-            status: status
+            status: status,
+            date: moment().format('MMMM Do YYYY, h:mm:ss a')
         }).then(task => {
             res.redirect('/task-list');
         })
@@ -280,7 +281,8 @@ router.post('/updateTask/:id', ensureAuthenticated, function (req, res){
         },
         {
             $set: {
-                status: new_task_status
+                status: new_task_status,
+                date: moment().format('MMMM Do YYYY, h:mm:ss a')
             }
         }
     ).then(task => {
@@ -296,7 +298,8 @@ router.get('/close/:id', ensureAuthenticated, (req, res) => {
         },
         {
             $set: {
-                status: "CLOSED"
+                status: "CLOSED",
+                date: moment().format('MMMM Do YYYY, h:mm:ss a')
             }
         }
     ).then(task => {
@@ -314,7 +317,8 @@ router.get('/open/:id', ensureAuthenticated, (req, res) => {
         },
         {
             $set: {
-                status: "OPEN"
+                status: "OPEN",
+                date: moment().format('MMMM Do YYYY, h:mm:ss a')
             }
         }
     ).then(task => {
@@ -369,7 +373,8 @@ router.post('/createTask', ensureAuthenticated, (req, res) => {
             assignee: username || 'Unassigneed',
             type: type,
             priority: priority,
-            status: status
+            status: status,
+            date: moment().format('MMMM Do YYYY, h:mm:ss a')
         }).then(task => {
             res.redirect('/task-list');
         })

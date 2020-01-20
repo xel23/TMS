@@ -27,6 +27,9 @@ let TaskSchema = mongoose.Schema({
     },
     status: {
         type: String
+    },
+    date: {
+        type: String
     }
 });
 
